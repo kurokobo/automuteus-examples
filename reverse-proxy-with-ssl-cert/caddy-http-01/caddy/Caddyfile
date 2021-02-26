@@ -1,0 +1,15 @@
+{$LETSENCRYPT_HOST}:{$REVERSEPROXY_EXTERNAL_PORT} {
+    tls {
+        issuer acme {
+            dir {$ACME_CA_URI}
+            email {$LETSENCRYPT_EMAIL}
+
+            # Force to use HTTP-01 challenge (requires 80/tcp)
+            disable_tlsalpn_challenge
+
+            # Force to use TLS-APLN-01 challenge (requires 443/tcp)
+            #disable_http_challenge
+        }
+    }
+    reverse_proxy galactus:{$GALACTUS_EXTERNAL_PORT}
+}

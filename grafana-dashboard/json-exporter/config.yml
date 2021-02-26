@@ -1,0 +1,21 @@
+metrics:
+
+- name: galactus_active_connections
+  help: Number of active connections to Galactus.
+  path: "{ .activeConnections }"
+
+- name: automuteus_active_games
+  help: Number of games playing using with AutoMuteUs in the last 15 mins.
+  path: "{ .activeGames }"
+
+- name: automuteus_total_games
+  help: The total number of games that have used AutoMuteUs so far.
+  path: "{ .totalGames }"
+
+- name: automuteus_total_guilds
+  help: The total number of guilds that have used AutoMuteUs so far.
+  path: "{ .totalGuilds }"
+
+- name: automuteus_total_users
+  help: The total number of people who have used AutoMuteUs so far.
+  path: "{ .totalUsers }"
