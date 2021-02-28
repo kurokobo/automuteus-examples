@@ -122,9 +122,11 @@ services:
     #  - 8080:8080
     command:
       - --store_container_labels=false
-      - --docker_only=false
+      - --docker_only=true
       - --disable_root_cgroup_stats=false
       - --disable_metrics=tcp,advtcp,udp,sched,process,hugetlb,disk
+      - --global_housekeeping_interval=60s
+      - --housekeeping_interval=60s
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
