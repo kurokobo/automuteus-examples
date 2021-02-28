@@ -1,0 +1,13 @@
+{$LETSENCRYPT_HOST}:{$REVERSEPROXY_EXTERNAL_PORT} {
+    tls {$LETSENCRYPT_EMAIL} {
+        ca {$ACME_CA_URI}
+        dns azure {
+            tenant_id {$AZURE_TENANT_ID}
+            client_id {$AZURE_CLIENT_ID}
+            client_secret {$AZURE_CLIENT_SECRET}
+            subscription_id {$AZURE_SUBSCRIPTION_ID}
+            resource_group_name {$AZURE_RESOURCE_GROUP_NAME}
+        }
+    }
+    reverse_proxy wingman:{$WINGMAN_PORT}
+}

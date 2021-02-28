@@ -1,0 +1,797 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "panels": [],
+      "title": "Stats",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 15,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 16,
+      "interval": "5s",
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "text": {}
+      },
+      "targets": [
+        {
+          "expr": "automuteus_active_games",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Active Gamse",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Load",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value_and_name"
+      },
+      "targets": [
+        {
+          "expr": "automuteus_total_games",
+          "interval": "",
+          "legendFormat": "Games",
+          "refId": "A"
+        },
+        {
+          "expr": "automuteus_total_guilds",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Guilds",
+          "refId": "B"
+        },
+        {
+          "expr": "automuteus_total_users",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Users",
+          "refId": "C"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 10,
+      "panels": [],
+      "title": "Graphs",
+      "type": "row"
+    },
+    {
+      "aggregate": "AVG",
+      "color": {
+        "colorScheme": "interpolateSpectral",
+        "colorSpace": "RGB",
+        "customColors": [
+          {
+            "color": "#006837"
+          },
+          {
+            "color": "#aa0526"
+          }
+        ],
+        "mode": "SPECTRUM",
+        "nullColor": "transparent"
+      },
+      "data": {
+        "decimals": null,
+        "unitFormat": "short"
+      },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {},
+          "custom": {},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "fragment": "HOUR",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "hideTimeOverride": false,
+      "id": 18,
+      "legend": {
+        "show": false
+      },
+      "scale": {
+        "max": 15,
+        "min": 0
+      },
+      "targets": [
+        {
+          "expr": "automuteus_active_games",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "now-1w/w",
+      "timeShift": null,
+      "title": "Active Games",
+      "tooltip": {
+        "show": true
+      },
+      "type": "petrslavotinek-carpetplot-panel",
+      "xAxis": {
+        "labelFormat": "%a %m/%d",
+        "minBucketWidthToShowWeekends": 4,
+        "show": true,
+        "showCrosshair": true,
+        "showWeekends": true
+      },
+      "yAxis": {
+        "show": true,
+        "showCrosshair": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 22,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_worker\"}[2m])",
+          "interval": "",
+          "legendFormat": "Worker Bot",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_capture\"}[2m])",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Capture Bot",
+          "refId": "B"
+        },
+        {
+          "expr": "rate(discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_official\"}[2m])",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Primary Bot",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Increase of Mute / Deafen By",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {},
+          "custom": {},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "format": "none",
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 8
+      },
+      "id": 24,
+      "interval": null,
+      "legend": {
+        "header": "",
+        "percentage": true,
+        "percentageDecimals": 1,
+        "show": true,
+        "values": true
+      },
+      "legendType": "On graph",
+      "links": [],
+      "nullPointMode": "connected",
+      "pieType": "pie",
+      "strokeWidth": "3",
+      "targets": [
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_worker\"}",
+          "interval": "",
+          "legendFormat": "Worker Bot",
+          "queryType": "randomWalk",
+          "refId": "A"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_capture\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Capture Bot",
+          "refId": "B"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_official\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Primary Bot",
+          "refId": "C"
+        }
+      ],
+      "title": "Mute / Deafen By",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {},
+          "custom": {},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "fill": 3,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 9,
+        "x": 0,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "discord_requests_by_type{type=\"mute_deafen_worker\"}",
+          "interval": "",
+          "legendFormat": "Worker Bot",
+          "queryType": "randomWalk",
+          "refId": "A"
+        },
+        {
+          "expr": "discord_requests_by_type{type=\"mute_deafen_capture\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Capture Bot",
+          "refId": "B"
+        },
+        {
+          "expr": "discord_requests_by_type{type=\"mute_deafen_official\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Primary Bot",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Mute / Deafen by",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {},
+          "custom": {},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 15,
+        "x": 9,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 20,
+      "legend": {
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_worker\"}",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "Mute / Defean by Worker",
+          "refId": "A"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_capture\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Mute / Defean by Capture",
+          "refId": "B"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_official\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Mute / Defean by Primary",
+          "refId": "C"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"message_create\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Post Messages",
+          "refId": "D"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"message_delete\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Deleate Messages",
+          "refId": "E"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"message_embed_create\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Post Embedded Messages",
+          "refId": "F"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"message_embed_edit\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Edit Embedded Messages",
+          "refId": "G"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"reaction_add\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Add Reactions",
+          "refId": "H"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"reaction_remove\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Remove Reactions",
+          "refId": "I"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"reaction_remove_all\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Remove All Reactions",
+          "refId": "J"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"create_guild_emoji\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Create Guild Emojis",
+          "refId": "K"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"guild\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Get Guilds",
+          "refId": "L"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"guild_channels\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Get Guild Channels",
+          "refId": "M"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"guild_emojis\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Get Guild Emojis",
+          "refId": "N"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"guild_member\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Get Guild Members",
+          "refId": "O"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"guild_roles\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Get Guild Roles",
+          "refId": "P"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"user_channel\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Get User Channels",
+          "refId": "Q"
+        },
+        {
+          "expr": "discord_requests_by_type{instance=~\".*\",job=\"discord_stats\",type=\"invalid_request\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Invalid Requests",
+          "refId": "R"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Discord Requests",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "AutoMuteUs",
+  "uid": "pCtSaTsMzs",
+  "version": 1
+}
