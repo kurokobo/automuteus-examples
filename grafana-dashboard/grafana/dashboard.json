@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 1,
   "links": [],
   "panels": [
     {
@@ -214,7 +214,7 @@
       },
       "fragment": "HOUR",
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
         "y": 8
@@ -270,7 +270,7 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
         "y": 8
@@ -386,7 +386,7 @@
       "fontSize": "100%",
       "format": "none",
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
         "y": 8
@@ -455,7 +455,7 @@
         "h": 7,
         "w": 9,
         "x": 0,
-        "y": 15
+        "y": 16
       },
       "hiddenSeries": false,
       "id": 26,
@@ -570,7 +570,7 @@
         "h": 7,
         "w": 15,
         "x": 9,
-        "y": 15
+        "y": 16
       },
       "hiddenSeries": false,
       "id": 20,
