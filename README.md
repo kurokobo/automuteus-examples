@@ -32,6 +32,8 @@ Some tips and tricks for someone in the future.
     * How to backup and restore your AutoMuteUs.
 * 📋 [**Secure Redis**](tips/secure-redis.md)
     * This introduces the way to secure your Redis by password authentication.
+* 📋 [**AutoMuteUs on Raspberry Pi**](tips/raspberry-pi.md)
+    * Some helpful information for getting AutoMuteUs to work on Raspberry Pi.
 
 ## Contribution
 
