@@ -2,8 +2,6 @@
 
 This repository provides examples of how to use [Self-Hosted AutoMuteUs](https://github.com/denverquane/automuteus) in combination with other useful tools like Grafana dashboard, Let's Encrypt certficate, etc.
 
-![image](https://user-images.githubusercontent.com/2920259/109378149-82290d00-7913-11eb-889e-83eb091d83e9.png)
-
 ## Contents
 
 ### 🚀 [AutoMuteUs with Grafana Dashboard](grafana-dashboard)
