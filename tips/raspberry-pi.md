@@ -5,10 +5,12 @@ Some helpful information for getting AutoMuteUs to work on Raspberry Pi.
 ## TL;DR
 
 * With Ubuntu, there are no special considerations.
-* With Raspberry Pi OS (former Raspbian), we will need to manually update `libseccomp2` and `libseccomp-dev`.
+* With Raspberry Pi OS (former Raspbian), we will need to manually update `libseccomp2` and `libseccomp-dev`, then restart AutoMuteUs after deleteing related volumes.
   * `curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.5.1-1_armhf.deb`
   * `curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp-dev_2.5.1-1_armhf.deb`
   * `sudo apt install ./libseccomp-dev_2.5.1-1_armhf.deb ./libseccomp2_2.5.1-1_armhf.deb`
+  * `docker-compose down --volumes` *(Note that this command will remove volumes including database used by AutoMuteUs)*
+  * `docker-compose up`
 
 ## On Raspberry Pi OS (Raspbian)
 
@@ -17,7 +19,7 @@ On Raspbian 10, `redis:6-alpine` and `postgres:12-alpine` used in AutoMuteUs don
 <details>
 <summary>Crash logs for Redis on startup</summary>
 
-```
+```bash
 redis_1  | 1:C 29 May 2071 13:52:08.000 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 redis_1  | 1:C 29 May 2071 13:52:08.000 # Redis version=6.2.1, bits=32, commit=00000000, modified=0, pid=1, just started
 redis_1  | 1:C 29 May 2071 13:52:08.000 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
@@ -40,7 +42,7 @@ redis_1  | ------ INFO OUTPUT ------
 <details>
 <summary>Crash logs for PostgreSQL on startup</summary>
 
-```
+```bash
 postgres_1  | The files belonging to this database system will be owned by user "postgres".
 postgres_1  | This user must also own the server process.
 postgres_1  |
@@ -95,11 +97,63 @@ The technical details for these problems can be found in the release notes of [A
 
 If we want to use the latest Redis or PostgreSQL images on Raspberry Pi OS, the problem will be solved by updating `libseccomp` for `armhf` platform. Note that the latest `libseccomp` in the APT repository (`2.3.3-4`) is a bit outdated to solve these problems, so we will need to download the newer one and install it manually.
 
-```
+After updating `libseccomp`, we have to reset AutoMuteUs by deleting related volumes. Note that the command `docker-compose down --volumes` in this procedure will remove all volumes including database used by AutoMuteUs.
+
+```bash
+# Update libseccomp
 curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.5.1-1_armhf.deb
 curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp-dev_2.5.1-1_armhf.deb
 sudo apt install ./libseccomp-dev_2.5.1-1_armhf.deb ./libseccomp2_2.5.1-1_armhf.deb
+
+# Reset and restart AutoMuteUs
+docker-compose down --volumes
+docker-compose up -d
 ```
+
+### Alternative Workaround
+
+If the workaround above can't helps us, there is an alternative way. 
+
+**But this weakens the security of the containers, so usually not recommended. Try this at your own risk.**
+
+<details>
+<summary>Procedure for alternative (but not recommended) way</summary>
+
+Add these 4 lines into your `docker-compose.yml`.
+
+```yaml
+... omitted ...
+
+  redis:
+    image: redis:alpine
+    restart: always
+    security_opt:           👈👈👈
+      - seccomp:unconfined  👈👈👈
+    volumes:
+      - "redis-data:/data"
+
+  postgres:
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+    security_opt:           👈👈👈
+      - seccomp:unconfined  👈👈👈
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data"
+
+... omitted ...
+```
+
+And then reset and restart your AutoMuteUs.
+
+```bash
+docker-compose down --volumes
+docker-compose up -d
+```
+
+</details>
 
 ## Additional information to use v7 on Raspberry Pi (Experimental)
 
@@ -118,3 +172,5 @@ docker-compose up -d wingman
 ```
 
 For technical information, see [the issue on Galactus](https://github.com/automuteus/galactus/issues/12).
+
+In addition, there is a possibility that container images for ARM platform will no longer be provided in the future. In that case, we will need to build required container images from source code ourself using `docker build` or `docker-compose build` to make AutoMuteUs work on the Raspberry Pi.
