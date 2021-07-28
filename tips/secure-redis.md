@@ -1,8 +1,17 @@
+<!-- omit in toc -->
 # Secure Redis
 
 By default, the Redis server does not require authentication, so anyone with access to the docker network can read and write the information on Redis.
 
 This introduces the way to secure your Redis by password authentication.
+
+<!-- omit in toc -->
+## Table of Contents
+
+- [Setup](#setup)
+  - [Prepare to setup](#prepare-to-setup)
+  - [Change configuration](#change-configuration)
+  - [Check the results](#check-the-results)
 
 ## Setup
 
@@ -21,7 +30,7 @@ $ docker-compose exec redis redis-cli keys '*'
 
 Then stop your instance.
 
-```
+```bash
 docker-compose down
 ```
 
@@ -29,7 +38,7 @@ docker-compose down
 
 Add `REDIS_PASS` and set some value to your `.env` file.
 
-```
+```bash
 ...
 POSTGRES_USER=postgres
 POSTGRES_PASS=putsomesecretpasswordhere
@@ -82,7 +91,7 @@ Ideally, we should control the password in the configuration file `redis.conf` r
 
 Start your instance.
 
-```
+```bash
 docker-compose up -d
 ```
 
@@ -93,7 +102,7 @@ $ docker-compose exec redis redis-cli keys '*'
 (error) NOAUTH Authentication required.
 ```
 
-```
+```bash
 $ docker-compose exec redis redis-cli -a thisismysupersecurepassword keys '*'
 Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
 1) "automuteus:version"

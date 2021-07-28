@@ -1,8 +1,21 @@
+<!-- omit in toc -->
 # AutoMuteUs with Grafana Dashboard using Prometheus
 
 This is an example of AutoMuteUs with pre-configured Grafana dashboard in easy way. All information will be aggregated in Prometheus automatically.
 
 ![image](https://user-images.githubusercontent.com/2920259/109378149-82290d00-7913-11eb-889e-83eb091d83e9.png)
+
+<!-- omit in toc -->
+## Table of Contents
+
+- [Installation](#installation)
+  - [Troubleshoot](#troubleshoot)
+- [Architecture](#architecture)
+  - [Data persistence](#data-persistence)
+  - [Data gathering](#data-gathering)
+  - [Gather from AutoMuteUs](#gather-from-automuteus)
+  - [Gather from Galactus](#gather-from-galactus)
+  - [Gather from Docker host](#gather-from-docker-host)
 
 ## Installation
 
@@ -41,11 +54,7 @@ docker-compose up -d
 docker-compose -f docker-compose.full.yml up -d
 ```
 
-Within a few minutes, you can view Grafana at the following URL:
-
-```
-http://<your-docker-host>:3000/
-```
+Within a few minutes, you can view Grafana at: `http://<your-docker-host>:3000/`.
 
 Once you logged in, now you can access pre-configured dashboard named **AutoMuteUs** from the `Dashboards` > `Manage` menu on the left. It may take a few minutes for the values to actually start showing up.
 

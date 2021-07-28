@@ -1,6 +1,16 @@
+<!-- omit in toc -->
 # Examples of AutoMuteUs deployments
 
 This repository provides examples of how to use [Self-Hosted AutoMuteUs](https://github.com/denverquane/automuteus) in combination with other useful tools like Grafana dashboard, Let's Encrypt certficate, etc.
+
+<!-- omit in toc -->
+## Table of Contents
+
+- [Contents](#contents)
+  - [🚀 AutoMuteUs with Grafana Dashboard](#-automuteus-with-grafana-dashboard)
+  - [🚀 AutoMuteUs over SSL](#-automuteus-over-ssl)
+  - [🚀 Tips and Tricks](#-tips-and-tricks)
+- [Contribution](#contribution)
 
 ## Contents
 
@@ -24,14 +34,14 @@ By default, WebSocket communication between AmongUsCapture and Galactus is not e
 
 Some tips and tricks for someone in the future.
 
-* 📋 [**Minimal bot permissions**](tips/minimal-bot-permissions.md)
-    * This introduces the minimum privileges required for your bots on discord.
-* 📋 [**Backup and Restore**](tips/backup-and-restore.md)
-    * How to backup and restore your AutoMuteUs.
-* 📋 [**Secure Redis**](tips/secure-redis.md)
-    * This introduces the way to secure your Redis by password authentication.
-* 📋 [**AutoMuteUs on Raspberry Pi**](tips/raspberry-pi.md)
-    * Some helpful information for getting AutoMuteUs to work on Raspberry Pi.
+- 📋 [**Minimal bot permissions**](tips/minimal-bot-permissions.md)
+  - This introduces the minimum privileges required for your bots on discord.
+- 📋 [**Backup and Restore**](tips/backup-and-restore.md)
+  - How to backup and restore your AutoMuteUs.
+- 📋 [**Secure Redis**](tips/secure-redis.md)
+  - This introduces the way to secure your Redis by password authentication.
+- 📋 [**AutoMuteUs on Raspberry Pi**](tips/raspberry-pi.md)
+  - Some helpful information for getting AutoMuteUs to work on Raspberry Pi.
 
 ## Contribution
 

@@ -1,19 +1,38 @@
+<!-- omit in toc -->
 # Backup and Restore
 
 This is how to backup and restore your AutoMuteUs.
 
+<!-- omit in toc -->
+## Table of Contents
+
+- [💎 Data and files to consider backing up and restoring](#-data-and-files-to-consider-backing-up-and-restoring)
+- [💾 Backing up your `.env` and `docker-compose.yml`](#-backing-up-your-env-and-docker-composeyml)
+- [💾 Backing up your Redis](#-backing-up-your-redis)
+  - [Online backup (without downtime)](#online-backup-without-downtime)
+  - [Offline backup (with downtime)](#offline-backup-with-downtime)
+- [💾 Backing up your PostgreSQL](#-backing-up-your-postgresql)
+  - [Online backup (without downtime)](#online-backup-without-downtime-1)
+  - [Offline backup (with downtime)](#offline-backup-with-downtime-1)
+- [🩺 Restoring your `.env` and `docker-compose.yml`](#-restoring-your-env-and-docker-composeyml)
+- [🩺 Restoring your Redis](#-restoring-your-redis)
+- [🩺 Restoring your PostgreSQL](#-restoring-your-postgresql)
+- [❓ Troubleshoot](#-troubleshoot)
+  - [Got `the input device is not a TTY` when invoke `docker-compose exec` command](#got-the-input-device-is-not-a-tty-when-invoke-docker-compose-exec-command)
+  - [Recreate entire environment](#recreate-entire-environment)
+
 ## 💎 Data and files to consider backing up and restoring
 
-* **`.env` file**
-  * Super important file that includes Discord token.
-* **`docker-compose.yml`**
-  * If you have made any changes to this file, you shoud keep this file.
-* **Redis**
-  * The Redis includes the following data that should be saved:
-    * Some counters for total users, total games, total guilds, etc.
-    * Settings per guild (any values that changed by `.au settings`)
-* **PostgreSQL**
-  * The PostgreSQL stores the history of the past games. It is mainly used for leaderboards (`.au stats`).
+- **`.env` file**
+  - Super important file that includes Discord token.
+- **`docker-compose.yml`**
+  - If you have made any changes to this file, you shoud keep this file.
+- **Redis**
+  - The Redis includes the following data that should be saved:
+    - Some counters for total users, total games, total guilds, etc.
+    - Settings per guild (any values that changed by `.au settings`)
+- **PostgreSQL**
+  - The PostgreSQL stores the history of the past games. It is mainly used for leaderboards (`.au stats`).
 
 ## 💾 Backing up your `.env` and `docker-compose.yml`
 
@@ -117,7 +136,7 @@ docker-compose run --rm -v $PWD/backup/psql:/tmp postgres tar c -zvf /tmp/backup
 
 Stop your instance, and then simply replace your files.
 
-```
+```bash
 docker-compose down
 ```
 
@@ -125,7 +144,7 @@ docker-compose down
 
 Stop your instance, and copy your dump file into the volume.
 
-```
+```bash
 docker-compose down
 docker-compose run --rm -v $PWD/backup/redis:/tmp redis cp /tmp/dump.rdb /data/dump.rdb 
 ```
@@ -158,7 +177,7 @@ docker-compose run --rm -v $PWD/backup/psql:/tmp postgres tar x -zvf /tmp/backup
 
 This is a problem that can occur in some environments. To solve this, add `-T` just after `exec`.
 
-```
+```bash
 # Original command
 docker-compose exec redis redis-cli lastsave
 
@@ -170,6 +189,6 @@ docker-compose exec -T redis redis-cli lastsave
 
 By invoking `docker-compose down` with `-v` (or `--volumes`) option, all containers, networks and volumes related to your `docker-compose.yml` file will be deleted.
 
-```
+```bash
 docker-compose down -v
 ```

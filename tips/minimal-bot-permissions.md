@@ -1,6 +1,13 @@
+<!-- omit in toc -->
 # Minimal Bot Permissions
 
 Current instruction says to grant administrator permission to the bot, but this is a bit excessive. This is minimal required bot permissions for 6.x or later.
+
+<!-- omit in toc -->
+## Table of Contents
+
+- [For the first bot](#for-the-first-bot)
+- [For the extra worker bot](#for-the-extra-worker-bot)
 
 ## For the first bot
 
@@ -36,7 +43,7 @@ Permissions Integer: `1086680128`
 | ⬜ Kick Members          | ⬜ Mention Everyone     | ⬜ Use Voice Activity |
 | ⬜ Ban Members           | ⬜ Use External Emojis  | ⬜ Priority Speaker   |
 | ⬜ Create Instant Invite | ⬜ Add Reactions        |                      |
-| ⬜ Change Nickname       |                        |                      |
+| ⬜ Change Nickname       | ⬜ Use Slash Commands   |                      |
 | ⬜ Manage Nicknames      |                        |                      |
 | ⬜ Manage Emojis         |                        |                      |
 | ⬜ Manage Webhooks       |                        |                      |

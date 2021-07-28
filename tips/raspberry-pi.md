@@ -1,20 +1,32 @@
+<!-- markdownlint-disable MD033 -->
+<!-- omit in toc -->
 # AutoMuteUs on Raspberry Pi
 
 Some helpful information for getting AutoMuteUs to work on Raspberry Pi.
 
+<!-- omit in toc -->
+## Table of Contents
+
+- [TL;DR](#tldr)
+- [On Raspberry Pi OS (Raspbian)](#on-raspberry-pi-os-raspbian)
+  - [Technical Details](#technical-details)
+  - [Workaround](#workaround)
+  - [Alternative Workaround](#alternative-workaround)
+- [Additional information to use v7 on Raspberry Pi (Experimental)](#additional-information-to-use-v7-on-raspberry-pi-experimental)
+
 ## TL;DR
 
-* With Ubuntu, there are no special considerations.
-* With Raspberry Pi OS (former Raspbian), we will need to manually update `libseccomp2` and `libseccomp-dev`, then restart AutoMuteUs after deleteing related volumes.
-  * `curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.5.1-1_armhf.deb`
-  * `curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp-dev_2.5.1-1_armhf.deb`
-  * `sudo apt install ./libseccomp-dev_2.5.1-1_armhf.deb ./libseccomp2_2.5.1-1_armhf.deb`
-  * `docker-compose down --volumes` *(Note that this command will remove volumes including database used by AutoMuteUs)*
-  * `docker-compose up`
+- With Ubuntu, there are no special considerations.
+- With Raspberry Pi OS (former Raspbian), we will need to manually update `libseccomp2` and `libseccomp-dev`, then restart AutoMuteUs after deleteing related volumes.
+  - `curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.5.1-1_armhf.deb`
+  - `curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp-dev_2.5.1-1_armhf.deb`
+  - `sudo apt install ./libseccomp-dev_2.5.1-1_armhf.deb ./libseccomp2_2.5.1-1_armhf.deb`
+  - `docker-compose down --volumes` *(Note that this command will remove volumes including database used by AutoMuteUs)*
+  - `docker-compose up`
 
 ## On Raspberry Pi OS (Raspbian)
 
-On Raspbian 10, `redis:6-alpine` and `postgres:12-alpine` used in AutoMuteUs don't work correctry. 
+On Raspbian 10, `redis:6-alpine` and `postgres:12-alpine` used in AutoMuteUs don't work correctry.
 
 <details>
 <summary>Crash logs for Redis on startup</summary>
@@ -37,6 +49,7 @@ redis_1  | 1:M 29 May 2071 12:47:52.000 # Killed by PID: 20, UID: 0
 redis_1  |
 redis_1  | ------ INFO OUTPUT ------
 ```
+
 </details>
 
 <details>
@@ -82,14 +95,15 @@ postgres_1  | pg_ctl: could not start server
 postgres_1  | Examine the log output.
 postgres_1  |  stopped waiting
 ```
+
 </details>
 
 ### Technical Details
 
 These problems are caused by the update of the base image for the PostgreSQL and Redis from `alpine:3.12` to `alpine:3.13`.
 
-* https://github.com/docker-library/postgres/commit/a6b426236d827763cf3f5b17e489b62289b75ff1
-* https://github.com/docker-library/redis/commit/04e150e0c6fb21e1eb0a79dde9998c37903358d3
+- <https://github.com/docker-library/postgres/commit/a6b426236d827763cf3f5b17e489b62289b75ff1>
+- <https://github.com/docker-library/redis/commit/04e150e0c6fb21e1eb0a79dde9998c37903358d3>
 
 The technical details for these problems can be found in the release notes of [Alpine](https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.13.0#musl_1.2) and related [musl](https://musl.libc.org/time64.html). In short, the system call for time on 32-bit systems has changed and it is no longer well handled by the old `libseccomp` on the container host side. Since the latest PostgreSQL and Redis used this system call indirectly, it no longer work well.
 
@@ -112,7 +126,7 @@ docker-compose up -d
 
 ### Alternative Workaround
 
-If the workaround above can't helps us, there is an alternative way. 
+If the workaround above can't helps us, there is an alternative way.
 
 **But this weakens the security of the containers, so usually not recommended. Try this at your own risk.**
 
@@ -163,7 +177,7 @@ The timeout is hardcoded and cannot be extended without modifying the code.
 
 As a workaround to avoid high load at startup, start Redis and PostgreSQL first, and wait a little while before starting the rest of the services.
 
-```
+```bash
 docker-compose up -d redis postgres
 sleep 30
 docker-compose up -d automuteus galactus
