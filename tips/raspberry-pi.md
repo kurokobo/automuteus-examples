@@ -7,26 +7,98 @@ Some helpful information for getting AutoMuteUs to work on Raspberry Pi.
 <!-- omit in toc -->
 ## Table of Contents
 
-- [TL;DR](#tldr)
-- [On Raspberry Pi OS (Raspbian)](#on-raspberry-pi-os-raspbian)
-  - [Technical Details](#technical-details)
-  - [Workaround](#workaround)
-  - [Alternative Workaround](#alternative-workaround)
-- [Additional information to use v7 on Raspberry Pi (Experimental)](#additional-information-to-use-v7-on-raspberry-pi-experimental)
+- [Summary](#summary)
+- [Procedure](#procedure)
+  - [Update `libseccomp2` and `libseccomp-dev`](#update-libseccomp2-and-libseccomp-dev)
+  - [Build `automuteus` container image and run AutoMuteUs](#build-automuteus-container-image-and-run-automuteus)
+- [Appendix: Explanation of the issue with `libseccomp` on Buster on ARM platform](#appendix-explanation-of-the-issue-with-libseccomp-on-buster-on-arm-platform)
+- [Appendix: To use v7 on Raspberry Pi (Experimental)](#appendix-to-use-v7-on-raspberry-pi-experimental)
 
-## TL;DR
+## Summary
 
-- With Ubuntu, there are no special considerations.
-- With Raspberry Pi OS (former Raspbian), we will need to manually update `libseccomp2` and `libseccomp-dev`, then restart AutoMuteUs after deleteing related volumes.
-  - `curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.5.1-1_armhf.deb`
-  - `curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp-dev_2.5.1-1_armhf.deb`
-  - `sudo apt install ./libseccomp-dev_2.5.1-1_armhf.deb ./libseccomp2_2.5.1-1_armhf.deb`
-  - `docker-compose down --volumes` *(Note that this command will remove volumes including database used by AutoMuteUs)*
-  - `docker-compose up`
+Follow the instructions for each OS.
 
-## On Raspberry Pi OS (Raspbian)
+- On **Raspberry Pi OS (Buster)**
+  1. [Update `libseccomp2` and `libseccomp-dev`](#update-libseccomp2-and-libseccomp-dev)
+  2. [Build `automuteus` container image and run AutoMuteUs](#build-automuteus-container-image-and-run-automuteus)
+- On **Raspberry Pi OS (Bullseye)**
+  - [Build `automuteus` container image and run AutoMuteUs](#build-automuteus-container-image-and-run-automuteus)
+- On **Ubuntu**
+  - [Build `automuteus` container image and run AutoMuteUs](#build-automuteus-container-image-and-run-automuteus)
 
-On Raspbian 10, `redis:6-alpine` and `postgres:12-alpine` used in AutoMuteUs don't work correctry.
+## Procedure
+
+### Update `libseccomp2` and `libseccomp-dev`
+
+This procedure is required on Buster-based Raspberry Pi OS only. See [the appendix](#appendix-explanation-of-the-issue-with-libseccomp-on-buster-on-arm-platform) for more details.
+
+```bash
+# Add Buster-based backport repository
+echo "deb <http://deb.debian.org/debian> buster-backports main contrib non-free" | sudo tee -a /etc/apt/sources.list.d/backports.list
+
+# Import public keys for new backport repository
+sudo curl -o /etc/apt/trusted.gpg.d/archive-key-10.asc <https://ftp-master.debian.org/keys/archive-key-10.asc>
+
+# Update libseccomp2 and libseccomp-dev
+sudo apt update
+sudo apt install -t buster-backports -y libseccomp2 libseccomp-dev
+```
+
+### Build `automuteus` container image and run AutoMuteUs
+
+Prepare required files.
+
+```bash
+cd ~
+git clone https://github.com/automuteus/automuteus.git
+git clone https://github.com/automuteus/deploy.git
+```
+
+Then provide your specific Environment Variables in the `.env` file under `deploy` directory, as relevant to your configuration. See [the Environment Variables reference on the `README.md` on `deploy` repository](https://github.com/automuteus/deploy#environment-variables) for details, as well as the `sample.env` file under `deploy` directory provided.
+
+Then modify your `docker-compose.yml` under `deploy` directory by commenting out the line `image: automuteus/automuteus:${AUTOMUTEUS_TAG:?err}` and uncommenting the `build: ../automuteus`.
+
+```yaml
+version: "3"
+
+services:
+  automuteus:
+    # Either:
+    # - Use a prebuilt image
+    #image: automuteus/automuteus:${AUTOMUTEUS_TAG:?err}     👈👈👈
+    # - Use an old prebuilt image (prior to 6.16.1)
+    #image: denverquane/amongusdiscord:${AUTOMUTEUS_TAG:?err}
+    # - Build image from local source
+    build: ../automuteus     👈👈👈
+    # - Build image from github directly
+    #build: https://github.com/automuteus/automuteus.git
+    ...
+```
+
+Next, pull related images and build your `automuteus` container.
+
+```bash
+cd ~/deploy
+docker-compose pull
+docker-compose build
+```
+
+Finally, start it up.
+
+```bash
+docker-compose up -d
+```
+
+If your Redis or PostgreSQL are stucked for some reason, reset AutoMuteUs by deleting related volumes. Note that the command `docker-compose down --volumes` in this procedure will remove all volumes including database used by AutoMuteUs.
+
+```bash
+docker-compose down --volumes
+docker-compose up -d
+```
+
+## Appendix: Explanation of the issue with `libseccomp` on Buster on ARM platform
+
+On the Buster-based Raspberry Pi OS, `redis:6-alpine` and `postgres:12-alpine` used in AutoMuteUs don't work correctry.
 
 <details>
 <summary>Crash logs for Redis on startup</summary>
@@ -98,78 +170,40 @@ postgres_1  |  stopped waiting
 
 </details>
 
-### Technical Details
-
-These problems are caused by the update of the base image for the PostgreSQL and Redis from `alpine:3.12` to `alpine:3.13`.
-
-- <https://github.com/docker-library/postgres/commit/a6b426236d827763cf3f5b17e489b62289b75ff1>
-- <https://github.com/docker-library/redis/commit/04e150e0c6fb21e1eb0a79dde9998c37903358d3>
-
-The technical details for these problems can be found in the release notes of [Alpine](https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.13.0#musl_1.2) and related [musl](https://musl.libc.org/time64.html). In short, the system call for time on 32-bit systems has changed and it is no longer well handled by the old `libseccomp` on the container host side. Since the latest PostgreSQL and Redis used this system call indirectly, it no longer work well.
-
-### Workaround
-
-If we want to use the latest Redis or PostgreSQL images on Raspberry Pi OS, the problem will be solved by updating `libseccomp` for `armhf` platform. Note that the latest `libseccomp` in the APT repository (`2.3.3-4`) is a bit outdated to solve these problems, so we will need to download the newer one and install it manually.
-
-After updating `libseccomp`, we have to reset AutoMuteUs by deleting related volumes. Note that the command `docker-compose down --volumes` in this procedure will remove all volumes including database used by AutoMuteUs.
-
-```bash
-# Update libseccomp
-curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.5.1-1_armhf.deb
-curl -O http://ftp.jp.debian.org/debian/pool/main/libs/libseccomp/libseccomp-dev_2.5.1-1_armhf.deb
-sudo apt install ./libseccomp-dev_2.5.1-1_armhf.deb ./libseccomp2_2.5.1-1_armhf.deb
-
-# Reset and restart AutoMuteUs
-docker-compose down --volumes
-docker-compose up -d
-```
-
-### Alternative Workaround
-
-If the workaround above can't helps us, there is an alternative way.
-
-**But this weakens the security of the containers, so usually not recommended. Try this at your own risk.**
+Additionaly, `docker-compose build` will also be failed.
 
 <details>
-<summary>Procedure for alternative (but not recommended) way</summary>
-
-Add these 4 lines into your `docker-compose.yml`.
-
-```yaml
-... omitted ...
-
-  redis:
-    image: redis:alpine
-    restart: always
-    security_opt:           👈👈👈
-      - seccomp:unconfined  👈👈👈
-    volumes:
-      - "redis-data:/data"
-
-  postgres:
-    image: postgres:12-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASS}
-    security_opt:           👈👈👈
-      - seccomp:unconfined  👈👈👈
-    volumes:
-      - "postgres-data:/var/lib/postgresql/data"
-
-... omitted ...
-```
-
-And then reset and restart your AutoMuteUs.
+<summary>Build failed due to temporary error</summary>
 
 ```bash
-docker-compose down --volumes
-docker-compose up -d
+$ docker-compose build
+redis uses an image, skipping
+galactus uses an image, skipping
+postgres uses an image, skipping
+Building automuteus
+Sending build context to Docker daemon  32.17MB
+Step 1/19 : FROM golang:1.15-alpine AS builder
+ ---> 458bd357894f
+Step 2/19 : RUN apk add --no-cache git
+ ---> Running in b048eada6b3a
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/main/armv7/APKINDEX.tar.gz
+WARNING: Ignoring https://dl-cdn.alpinelinux.org/alpine/v3.14/main: temporary error (try again later)
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/community/armv7/APKINDEX.tar.gz
+WARNING: Ignoring https://dl-cdn.alpinelinux.org/alpine/v3.14/community: temporary error (try again later)
+ERROR: unable to select packages:
+  git (no such package):
+    required by: world[git]
+The command '/bin/sh -c apk add --no-cache git' returned a non-zero code: 1
+ERROR: Service 'automuteus' failed to build : Build failed
 ```
 
 </details>
 
-## Additional information to use v7 on Raspberry Pi (Experimental)
+The technical details for these problems can be found in the release notes of [Alpine](https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.13.0#musl_1.2) and related [musl](https://musl.libc.org/time64.html). In short, the system call for time on 32-bit systems has changed and it is no longer well handled by the old `libseccomp` on the container host side. Since the latest PostgreSQL and Redis used this system call indirectly, it no longer work well.
+
+The latest `libseccomp` in the repository for Buster-based Raspberry Pi OS is a bit outdated (`2.3.3-4`) to solve these problems, so we will need update related packages by using backport repository as described above.
+
+## Appendix: To use v7 on Raspberry Pi (Experimental)
 
 In the current v7 implementation, AutoMuteUs may not start properly on Raspberry Pi. This is due to the high load on limited hardware resources during startup causing some of the internal processing to time out.
 
@@ -186,5 +220,3 @@ docker-compose up -d wingman
 ```
 
 For technical information, see [the issue on Galactus](https://github.com/automuteus/galactus/issues/12).
-
-In addition, there is a possibility that container images for ARM platform will no longer be provided in the future. In that case, we will need to build required container images from source code ourself using `docker build` or `docker-compose build` to make AutoMuteUs work on the Raspberry Pi.
