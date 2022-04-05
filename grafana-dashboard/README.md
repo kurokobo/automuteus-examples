@@ -30,11 +30,11 @@ Create your `.env` file using `sample.env` in this repository as in the official
 # - Json exporter (used as Galactus exporter): https://github.com/prometheus-community/json_exporter/releases
 # - Node exporter: https://github.com/prometheus/node_exporter/releases
 # - cAdvisor: https://github.com/google/cadvisor/releases
-GRAFANA_TAG=7.4.3
-PROMETHEUS_TAG=2.25.0
-PROMETHEUS_GALACTUS_EXPORTER_TAG=0.3.0
-PROMETHEUS_DOCKER_NODE_EXPORTER_TAG=1.1.1
-PROMETHEUS_CADVISOR_TAG=0.37.5
+GRAFANA_TAG=8.4.5
+PROMETHEUS_TAG=2.34.0
+PROMETHEUS_GALACTUS_EXPORTER_TAG=0.4.0
+PROMETHEUS_DOCKER_NODE_EXPORTER_TAG=1.3.1
+PROMETHEUS_CADVISOR_TAG=0.39.3
 
 # Specify default username and password for Grafana
 GRAFANA_USER=
@@ -56,7 +56,7 @@ docker-compose -f docker-compose.full.yml up -d
 
 Within a few minutes, you can view Grafana at: `http://<your-docker-host>:3000/`.
 
-Once you logged in, now you can access pre-configured dashboard named **AutoMuteUs** from the `Dashboards` > `Manage` menu on the left. It may take a few minutes for the values to actually start showing up.
+Once you logged in, now you can access pre-configured dashboard named **AutoMuteUs** from the `Dashboards` > `Browse` menu on the left. It may take a few minutes for the values to actually start showing up.
 
 ### Troubleshoot
 
