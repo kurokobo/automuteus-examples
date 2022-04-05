@@ -10,9 +10,9 @@ Some helpful information for getting AutoMuteUs to work on Raspberry Pi.
 - [Summary](#summary)
 - [Procedure](#procedure)
   - [Update `libseccomp2` and `libseccomp-dev`](#update-libseccomp2-and-libseccomp-dev)
-  - [Build `automuteus` container image and run AutoMuteUs](#build-automuteus-container-image-and-run-automuteus)
+  - [Build `automuteus` container image](#build-automuteus-container-image)
+  - [Start AutoMuteUs](#start-automuteus)
 - [Appendix: Explanation of the issue with `libseccomp` on Buster on ARM platform](#appendix-explanation-of-the-issue-with-libseccomp-on-buster-on-arm-platform)
-- [Appendix: To use v7 on Raspberry Pi (Experimental)](#appendix-to-use-v7-on-raspberry-pi-experimental)
 
 ## Summary
 
@@ -44,46 +44,31 @@ sudo apt update
 sudo apt install -t buster-backports -y libseccomp2 libseccomp-dev
 ```
 
-### Build `automuteus` container image and run AutoMuteUs
+### Build `automuteus` container image
 
-Prepare required files.
+The pre-built container images for ARM platform are published for the following versions. You can skip this section if the version you want to use is listed.
+
+- `6.0.0` through `6.15.3`
+- `7.0.0` or later
+
+If you want to use a version other than the above, you will need to build your own container image.
 
 ```bash
-cd ~
+# Specify the version you want to use
+export AUTOMUTEUS_VERSION=6.16.10
+
+# Fetch required files and checkout specific version
 git clone https://github.com/automuteus/automuteus.git
-git clone https://github.com/automuteus/deploy.git
+cd automuteus
+git checkout ${AUTOMUTEUS_VERSION}
+
+# Build new image
+docker build -t automuteus/automuteus:${AUTOMUTEUS_VERSION}
 ```
 
-Then provide your specific Environment Variables in the `.env` file under `deploy` directory, as relevant to your configuration. See [the Environment Variables reference on the `README.md` on `deploy` repository](https://github.com/automuteus/deploy#environment-variables) for details, as well as the `sample.env` file under `deploy` directory provided.
+### Start AutoMuteUs
 
-Then modify your `docker-compose.yml` under `deploy` directory by commenting out the line `image: automuteus/automuteus:${AUTOMUTEUS_TAG:?err}` and uncommenting the `build: ../automuteus`.
-
-```yaml
-version: "3"
-
-services:
-  automuteus:
-    # Either:
-    # - Use a prebuilt image
-    #image: automuteus/automuteus:${AUTOMUTEUS_TAG:?err}     👈👈👈
-    # - Use an old prebuilt image (prior to 6.16.1)
-    #image: denverquane/amongusdiscord:${AUTOMUTEUS_TAG:?err}
-    # - Build image from local source
-    build: ../automuteus     👈👈👈
-    # - Build image from github directly
-    #build: https://github.com/automuteus/automuteus.git
-    ...
-```
-
-Next, pull related images and build your `automuteus` container.
-
-```bash
-cd ~/deploy
-docker-compose pull
-docker-compose build
-```
-
-Finally, start it up.
+Ensure you have valid `.env` file and then finally start it up.
 
 ```bash
 docker-compose up -d
@@ -202,21 +187,3 @@ ERROR: Service 'automuteus' failed to build : Build failed
 The technical details for these problems can be found in the release notes of [Alpine](https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.13.0#musl_1.2) and related [musl](https://musl.libc.org/time64.html). In short, the system call for time on 32-bit systems has changed and it is no longer well handled by the old `libseccomp` on the container host side. Since the latest PostgreSQL and Redis used this system call indirectly, it no longer work well.
 
 The latest `libseccomp` in the repository for Buster-based Raspberry Pi OS is a bit outdated (`2.3.3-4`) to solve these problems, so we will need update related packages by using backport repository as described above.
-
-## Appendix: To use v7 on Raspberry Pi (Experimental)
-
-In the current v7 implementation, AutoMuteUs may not start properly on Raspberry Pi. This is due to the high load on limited hardware resources during startup causing some of the internal processing to time out.
-
-The timeout is hardcoded and cannot be extended without modifying the code.
-
-As a workaround to avoid high load at startup, start Redis and PostgreSQL first, and wait a little while before starting the rest of the services.
-
-```bash
-docker-compose up -d redis postgres
-sleep 30
-docker-compose up -d automuteus galactus
-sleep 30
-docker-compose up -d wingman
-```
-
-For technical information, see [the issue on Galactus](https://github.com/automuteus/galactus/issues/12).
