@@ -65,8 +65,8 @@ docker-compose up -d
 
 ### Configuration
 
-- `NGINXPROXY_TAG`, `NGINXPROXY_COMPANION_TAG`
-  - Refer [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy/releases) and [nginx-proxy-companion](https://github.com/nginx-proxy/docker-letsencrypt-nginx-proxy-companion/releases), then specify the latest version without the leading `v`.
+- `NGINXPROXY_TAG`, `ACME_COMPANION_TAG`
+  - Refer [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy/releases) and [acme-companion](https://github.com/nginx-proxy/acme-companion/releases), then specify the latest version without the leading `v`.
 
 ## 🚀 Use Caddy (HTTP-01 / TLS-ALPN-01 challenge)
 

@@ -39,11 +39,19 @@ services:
       - postgres
     volumes:
       - "bot-logs:/app/logs"
+
   galactus:
+    # Either:
+    # - Use a prebuilt image
+    image: automuteus/galactus:${GALACTUS_TAG:?err}
+    # - Build image from local source
+    #build: ../galactus
+    # - Build image from github directly
+    #build: https://github.com/automuteus/galactus.git
+
     ports:
       # See sample.env for details, but in general, match the GALACTUS_EXTERNAL_PORT w/ the GALACTUS_HOST's port
       - ${GALACTUS_EXTERNAL_PORT:-8123}:${BROKER_PORT}
-    image: automuteus/galactus:${GALACTUS_TAG:?err}
     restart: always
     environment:
       # This Variable is optional

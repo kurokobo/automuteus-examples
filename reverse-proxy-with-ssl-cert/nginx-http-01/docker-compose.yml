@@ -21,29 +21,39 @@ services:
       - POSTGRES_PASS=${POSTGRES_PASS:?err}
 
       # These Variables are optional
-      - WORKER_BOT_TOKENS=${WORKER_BOT_TOKENS:-}
       - EMOJI_GUILD_ID=${EMOJI_GUILD_ID:-}
       - CAPTURE_TIMEOUT=${CAPTURE_TIMEOUT:-}
       - AUTOMUTEUS_LISTENING=${AUTOMUTEUS_LISTENING:-}
       - AUTOMUTEUS_GLOBAL_PREFIX=${AUTOMUTEUS_GLOBAL_PREFIX:-}
       - BASE_MAP_URL=${BASE_MAP_URL:-}
+      - SLASH_COMMAND_GUILD_IDS=${SLASH_COMMAND_GUILD_IDS:-}
 
       # Do **NOT** change this
       - REDIS_ADDR=${AUTOMUTEUS_REDIS_ADDR}
       - GALACTUS_ADDR=${GALACTUS_ADDR}
       - POSTGRES_ADDR=${POSTGRES_ADDR}
+    stop_grace_period: ${STOP_GRACE_PERIOD:-2m}
     depends_on:
       - redis
       - galactus
       - postgres
-      - nginx-proxy-letsencrypt
     volumes:
       - "bot-logs:/app/logs"
 
   galactus:
+    # Either:
+    # - Use a prebuilt image
     image: automuteus/galactus:${GALACTUS_TAG:?err}
+    # - Build image from local source
+    #build: ../galactus
+    # - Build image from github directly
+    #build: https://github.com/automuteus/galactus.git
+
     restart: always
     environment:
+      # This Variable is optional
+      - WORKER_BOT_TOKENS=${WORKER_BOT_TOKENS:-}
+
       # Do **NOT** change these
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN:?err}
       - BROKER_PORT=${BROKER_PORT}
@@ -73,7 +83,7 @@ services:
       - "postgres-data:/var/lib/postgresql/data"
 
   nginx-proxy:
-    image: jwilder/nginx-proxy:${NGINXPROXY_TAG:?err}
+    image: nginxproxy/nginx-proxy:${NGINXPROXY_TAG:?err}
     labels:
       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
     restart: always
@@ -89,7 +99,7 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
   nginx-proxy-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion:${NGINXPROXY_COMPANION_TAG:?err}
+    image: nginxproxy/acme-companion:${ACME_COMPANION_TAG:?err}
     restart: always
     environment:
       - ACME_CA_URI=${ACME_CA_URI:?err}
