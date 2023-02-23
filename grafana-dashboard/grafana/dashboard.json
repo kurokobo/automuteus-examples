@@ -3,24 +3,37 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 1,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -29,17 +42,28 @@
       },
       "id": 12,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Stats",
       "type": "row"
     },
     {
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "custom": {},
           "mappings": [],
           "max": 15,
           "min": 0,
@@ -70,6 +94,8 @@
       "interval": "5s",
       "options": {
         "displayMode": "lcd",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -81,8 +107,13 @@
         "showUnfilled": true,
         "text": {}
       },
+      "pluginVersion": "9.3.6",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "automuteus_active_games",
           "hide": false,
           "interval": "",
@@ -90,19 +121,19 @@
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Load",
       "type": "bargauge"
     },
     {
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -139,14 +170,23 @@
         "text": {},
         "textMode": "value_and_name"
       },
+      "pluginVersion": "9.3.6",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "automuteus_total_games",
           "interval": "",
           "legendFormat": "Games",
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "automuteus_total_guilds",
           "hide": false,
           "interval": "",
@@ -154,6 +194,10 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "automuteus_total_users",
           "hide": false,
           "interval": "",
@@ -161,14 +205,15 @@
           "refId": "C"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Total",
       "type": "stat"
     },
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -177,6 +222,15 @@
       },
       "id": 10,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Graphs",
       "type": "row"
     },
@@ -197,20 +251,11 @@
         "nullColor": "transparent"
       },
       "data": {
-        "decimals": null,
         "unitFormat": "short"
       },
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {},
-          "custom": {},
-          "thresholds": {
-            "mode": "absolute",
-            "steps": []
-          }
-        },
-        "overrides": []
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
       "fragment": "HOUR",
       "gridPos": {
@@ -230,6 +275,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "automuteus_active_games",
           "interval": "",
           "legendFormat": "",
@@ -237,7 +286,6 @@
         }
       ],
       "timeFrom": "now-1w/w",
-      "timeShift": null,
       "title": "Active Games",
       "tooltip": {
         "show": true
@@ -260,12 +308,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -293,6 +338,7 @@
         "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -302,12 +348,20 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "rate(discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_worker\"}[2m])",
           "interval": "",
           "legendFormat": "Worker Bot",
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "rate(discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_capture\"}[2m])",
           "hide": false,
           "interval": "",
@@ -315,6 +369,10 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "rate(discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_official\"}[2m])",
           "hide": false,
           "interval": "",
@@ -323,9 +381,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Increase of Mute / Deafen By",
       "tooltip": {
         "shared": true,
@@ -334,54 +390,36 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "aliasColors": {},
       "breakPoint": "50%",
-      "cacheTimeout": null,
       "combine": {
         "label": "Others",
         "threshold": 0
       },
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {},
-          "custom": {},
-          "thresholds": {
-            "mode": "absolute",
-            "steps": []
-          }
-        },
-        "overrides": []
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
       "fontSize": "100%",
       "format": "none",
@@ -392,7 +430,6 @@
         "y": 8
       },
       "id": 24,
-      "interval": null,
       "legend": {
         "header": "",
         "percentage": true,
@@ -407,6 +444,10 @@
       "strokeWidth": "3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_worker\"}",
           "interval": "",
           "legendFormat": "Worker Bot",
@@ -414,6 +455,10 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_capture\"}",
           "hide": false,
           "interval": "",
@@ -421,6 +466,10 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_official\"}",
           "hide": false,
           "interval": "",
@@ -437,17 +486,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {},
-          "custom": {},
-          "thresholds": {
-            "mode": "absolute",
-            "steps": []
-          }
-        },
-        "overrides": []
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
       "fill": 3,
       "fillGradient": 0,
@@ -475,6 +516,7 @@
         "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -484,6 +526,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{type=\"mute_deafen_worker\"}",
           "interval": "",
           "legendFormat": "Worker Bot",
@@ -491,6 +537,10 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{type=\"mute_deafen_capture\"}",
           "hide": false,
           "interval": "",
@@ -498,6 +548,10 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{type=\"mute_deafen_official\"}",
           "hide": false,
           "interval": "",
@@ -506,9 +560,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Mute / Deafen by",
       "tooltip": {
         "shared": true,
@@ -517,33 +569,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -551,15 +594,12 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {},
-          "custom": {},
-          "thresholds": {
-            "mode": "absolute",
-            "steps": []
-          },
           "unit": "short"
         },
         "overrides": []
@@ -590,6 +630,7 @@
         "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "9.3.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -599,6 +640,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_worker\"}",
           "format": "time_series",
           "interval": "",
@@ -606,6 +651,10 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_capture\"}",
           "hide": false,
           "interval": "",
@@ -613,6 +662,10 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"mute_deafen_official\"}",
           "hide": false,
           "interval": "",
@@ -620,6 +673,10 @@
           "refId": "C"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"message_create_delete\"}",
           "hide": false,
           "interval": "",
@@ -627,6 +684,10 @@
           "refId": "D"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"message_edit\"}",
           "hide": false,
           "interval": "",
@@ -634,6 +695,10 @@
           "refId": "E"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"reaction_add_remove\"}",
           "hide": false,
           "interval": "",
@@ -641,6 +706,10 @@
           "refId": "F"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "expr": "discord_requests_by_node_and_type{instance=~\".*\",job=\"discord_stats\",type=\"invalid_request\"}",
           "hide": false,
           "interval": "",
@@ -649,9 +718,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Discord Requests",
       "tooltip": {
         "shared": true,
@@ -660,38 +727,30 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 27,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -716,5 +775,6 @@
   "timezone": "",
   "title": "AutoMuteUs",
   "uid": "pCtSaTsMzs",
-  "version": 1
+  "version": 2,
+  "weekStart": ""
 }

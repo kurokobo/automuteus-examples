@@ -12,14 +12,14 @@ scrape_configs:
     metrics_path: /probe
     static_configs:
       - targets:
-          - http://galactus:8123/
+          - http://automuteus:5000/bot/info
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: prometheus-galactus-exporter:7979
+        replacement: prometheus-automuteus-exporter:7979
 
   - job_name: docker_node_stats
     static_configs:

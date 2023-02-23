@@ -12,6 +12,9 @@ services:
     # - Build image from github directly
     #build: https://github.com/automuteus/automuteus.git
 
+    # Uncomment to expose API
+    #ports:
+    #  - ${API_PORT:-80}:${SERVICE_PORT}
     restart: always
     environment:
       # These are required and will fail if not present
@@ -21,17 +24,20 @@ services:
       - POSTGRES_PASS=${POSTGRES_PASS:?err}
 
       # These Variables are optional
+      - WORKER_BOT_TOKENS=${WORKER_BOT_TOKENS:-}
       - EMOJI_GUILD_ID=${EMOJI_GUILD_ID:-}
       - CAPTURE_TIMEOUT=${CAPTURE_TIMEOUT:-}
       - AUTOMUTEUS_LISTENING=${AUTOMUTEUS_LISTENING:-}
-      - AUTOMUTEUS_GLOBAL_PREFIX=${AUTOMUTEUS_GLOBAL_PREFIX:-}
       - BASE_MAP_URL=${BASE_MAP_URL:-}
       - SLASH_COMMAND_GUILD_IDS=${SLASH_COMMAND_GUILD_IDS:-}
+      - API_SERVER_URL=${API_SERVER_URL:-}
+      - API_ADMIN_PASS=${API_ADMIN_PASS:-}
 
-      # Do **NOT** change this
-      - REDIS_ADDR=${AUTOMUTEUS_REDIS_ADDR}
-      - GALACTUS_ADDR=${GALACTUS_ADDR}
+      # Do **NOT** change these
+      - REDIS_ADDR=${REDIS_ADDR}
       - POSTGRES_ADDR=${POSTGRES_ADDR}
+      # - SHARDS=0,1
+      # - NUM_SHARDS=2
     stop_grace_period: ${STOP_GRACE_PERIOD:-2m}
     depends_on:
       - redis
@@ -51,14 +57,10 @@ services:
 
     restart: always
     environment:
-      # This Variable is optional
-      - WORKER_BOT_TOKENS=${WORKER_BOT_TOKENS:-}
-
       # Do **NOT** change these
-      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN:?err}
       - BROKER_PORT=${BROKER_PORT}
-      - REDIS_ADDR=${GALACTUS_REDIS_ADDR}
-      - GALACTUS_PORT=${GALACTUS_PORT}
+      - REDIS_ADDR=${REDIS_ADDR}
+      # - NUM_SHARDS=2
       - VIRTUAL_HOST=${LETSENCRYPT_HOST}
       - VIRTUAL_PORT=${GALACTUS_EXTERNAL_PORT:-8123}
       - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}

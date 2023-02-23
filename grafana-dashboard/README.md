@@ -30,15 +30,15 @@ Create your `.env` file using `sample.env` in this repository as in the official
 # - Json exporter (used as Galactus exporter): https://github.com/prometheus-community/json_exporter/releases
 # - Node exporter: https://github.com/prometheus/node_exporter/releases
 # - cAdvisor: https://github.com/google/cadvisor/releases
-GRAFANA_TAG=8.4.5
-PROMETHEUS_TAG=2.34.0
-PROMETHEUS_GALACTUS_EXPORTER_TAG=0.4.0
-PROMETHEUS_DOCKER_NODE_EXPORTER_TAG=1.3.1
-PROMETHEUS_CADVISOR_TAG=0.39.3
+GRAFANA_TAG=9.3.6
+PROMETHEUS_TAG=2.42.0
+PROMETHEUS_AUTOMUTEUS_EXPORTER_TAG=0.5.0
+PROMETHEUS_DOCKER_NODE_EXPORTER_TAG=1.5.0
+PROMETHEUS_CADVISOR_TAG=0.47.0
 
 # Specify default username and password for Grafana
-GRAFANA_USER=
-GRAFANA_PASS=
+GRAFANA_USER=admin
+GRAFANA_PASS=Grafana123!
 GRAFANA_EXTERNAL_PORT=3000
 ```
 
@@ -46,12 +46,12 @@ Now all you have to do is just start it. If you want to use full-featured versio
 
 ```bash
 # Start standard version.
-docker-compose up -d
+docker compose up -d
 
 # Start full-featured version.
 # To use this, you need to specify the name of the compose file by -f option
 # not only when invoke "up" but also any other operations i.e. "ps", "logs", "down", etc.
-docker-compose -f docker-compose.full.yml up -d
+docker compose -f docker-compose.full.yml up -d
 ```
 
 Within a few minutes, you can view Grafana at: `http://<your-docker-host>:3000/`.
@@ -119,7 +119,7 @@ By querying Galactus broker using HTTP, we can get a JSON strings including some
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: prometheus-galactus-exporter:7979
+        replacement: prometheus-automuteus-exporter:7979
 ```
 
 ### Gather from Docker host
