@@ -50,7 +50,7 @@ The method-specific settings are described for each method at the rest of this p
 Once you have the `.env` file, you are ready to go.
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ## 🚀 Use Nginx (HTTP-01 challenge)
@@ -106,6 +106,6 @@ docker-compose up -d
 ### Configuration
 
 - `CADDY_TAG`, `CADDY_DNS_TAG`
-  - Refer [caddy](https://github.com/caddyserver/caddy/releases) and [caddy-dns-azure](https://github.com/caddy-dns/azure/releases), then specify the latest version without the leading `v`.
+  - Refer [caddy](https://github.com/caddyserver/caddy/releases) and [caddy-dns-azure](https://github.com/caddy-dns/azure/tags), then specify the latest version without the leading `v`.
 - `AZURE_*`
   - Specify your credentials and the related IDs/names for the Azure DNS.

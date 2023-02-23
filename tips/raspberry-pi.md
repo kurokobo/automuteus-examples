@@ -71,14 +71,14 @@ docker build -t automuteus/automuteus:${AUTOMUTEUS_VERSION}
 Ensure you have valid `.env` file and then finally start it up.
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
-If your Redis or PostgreSQL are stucked for some reason, reset AutoMuteUs by deleting related volumes. Note that the command `docker-compose down --volumes` in this procedure will remove all volumes including database used by AutoMuteUs.
+If your Redis or PostgreSQL are stucked for some reason, reset AutoMuteUs by deleting related volumes. Note that the command `docker compose down --volumes` in this procedure will remove all volumes including database used by AutoMuteUs.
 
 ```bash
-docker-compose down --volumes
-docker-compose up -d
+docker compose down --volumes
+docker compose up -d
 ```
 
 ## Appendix: Explanation of the issue with `libseccomp` on Buster on ARM platform
@@ -155,13 +155,13 @@ postgres_1  |  stopped waiting
 
 </details>
 
-Additionaly, `docker-compose build` will also be failed.
+Additionaly, `docker compose build` will also be failed.
 
 <details>
 <summary>Build failed due to temporary error</summary>
 
 ```bash
-$ docker-compose build
+$ docker compose build
 redis uses an image, skipping
 galactus uses an image, skipping
 postgres uses an image, skipping
